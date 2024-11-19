@@ -5,7 +5,7 @@ public class Anagram {
 		System.out.println(isAnagram("silent", "listen")); // true
 		System.out.println(isAnagram("William Shakespeare", "I am a weakish speller")); // true
 		System.out.println(isAnagram("Madam Curie", "Radium came")); // true
-		System.out.println(isAnagram("Tom Marvolo Riddle", "I am    Lord Voldemort!!!")); // true
+		System.out.println(isAnagram("Tom Marvolo Riddle", "I am Lord Voldemort!!!")); // true
 
 		// Tests the preProcess function.
 		System.out.println(preProcess("What? No way!!!"));
@@ -31,8 +31,8 @@ public class Anagram {
 	public static boolean isAnagram(String str1, String str2) {
 		// Replace the following statement with your code
 		// Should be implemented with a dictionary :( Too bad we haven't learned it yet
-		str1 = preProcess(str1);
-		str2 = preProcess(str2);
+		str1 = preProcess(removeSpace(str1));
+		str2 = preProcess(removeSpace(str2));
 		if (str1.length() != str2.length()) {
 			return false;
 		}
@@ -45,6 +45,18 @@ public class Anagram {
 			str2 = removeChar(str2CharIndex, str2);
 		}
 		return true;
+	}
+
+	public static String removeSpace(String str) {
+		String space = " ";
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if (space.indexOf(c) != -1) {
+				str = removeChar(i, str);
+				i--;
+			}
+		}
+		return str;
 	}
 
 	public static String removeChar(int index, String str) {
@@ -63,7 +75,7 @@ public class Anagram {
 	// as is. For example, the string "What? No way!" becomes "whatnoway"
 	public static String preProcess(String str) {
 		// Replace the following statement with your code
-		String abc = "abcdefghijklmnopqrstuvwxys";
+		String abc = "abcdefghijklmnopqrstuvwxys ";
 		str = str.toLowerCase();
 		for (int i = 0; i < str.length(); i++) {
 			char c = str.charAt(i);
