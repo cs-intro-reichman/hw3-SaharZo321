@@ -56,7 +56,7 @@ public class LoanCalc {
 			endAmount=endBalance(loan, rate, n, payment);
 			iterationCounter++;
 		}
-		return payment;
+		return (double) ((int) (payment * 100)) / 100;
     }
     
     // Uses bisection search to compute an approximation of the periodical payment 
