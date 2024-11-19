@@ -24,6 +24,8 @@ public class LoanCalc {
 		System.out.println((int) bruteForceSolver(loan, rate, n, epsilon));
 		System.out.println("number of iterations: " + iterationCounter);
 
+		iterationCounter = 0;
+		
 		// Computes the periodical payment using bisection search
 		System.out.print("\nPeriodical payment, using bi-section search: ");
 		System.out.println((int) bisectionSolver(loan, rate, n, epsilon));
@@ -33,8 +35,11 @@ public class LoanCalc {
 	// Computes the ending balance of a loan, given the loan amount, the periodical
 	// interest rate (as a percentage), the number of periods (n), and the periodical payment.
 	private static double endBalance(double loan, double rate, int n, double payment) {	
-		// Replace the following statement with your code
-		return 0;
+		for (int i = 0; i < n; i++) {
+			loan -= payment;
+			loan *= (1 + rate / 100);
+		}
+		return loan;
 	}
 	
 	// Uses sequential search to compute an approximation of the periodical payment
@@ -44,7 +49,14 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {  
     	// Replace the following statement with your code
-		return 0;
+		double endAmount = endBalance(loan, rate, n, epsilon);
+		double payment = epsilon;
+		while (endAmount > 0) {
+			payment += epsilon;
+			endAmount=endBalance(loan, rate, n, payment);
+			iterationCounter++;
+		}
+		return payment;
     }
     
     // Uses bisection search to compute an approximation of the periodical payment 
@@ -54,6 +66,19 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
         // Replace the following statement with your code
-		return 0;
+		double high = 100000, low = 100;
+		double middle = (high + low) / 2;
+		while (high - low > epsilon) {
+			double lowBalace = endBalance(loan, rate, n, low);
+			double midBalance = endBalance(loan, rate, n, middle);
+			if (lowBalace * midBalance > 0) {
+				low = middle;
+			} else {
+				high = middle;
+			}
+			middle = (high + low) / 2;
+			iterationCounter++;
+		}
+		return middle;
     }
 }
