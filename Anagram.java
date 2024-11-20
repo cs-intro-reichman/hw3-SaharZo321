@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /** Functions for checking if a given string is an anagram. */
 public class Anagram {
 	public static void main(String args[]) {
@@ -30,7 +32,6 @@ public class Anagram {
 	// Returns true if the two given strings are anagrams, false otherwise.
 	public static boolean isAnagram(String str1, String str2) {
 		// Replace the following statement with your code
-		// Should be implemented with a dictionary :( Too bad we haven't learned it yet
 		str1 = preProcess(removeSpace(str1));
 		str2 = preProcess(removeSpace(str2));
 		if (str1.length() != str2.length()) {
@@ -45,6 +46,41 @@ public class Anagram {
 			str2 = removeChar(str2CharIndex, str2);
 		}
 		return true;
+
+		// this question is suited to dictionary and hashmaps...
+		// return isAnagramDic(str1, str2);
+	}
+
+	public static boolean isAnagramDic(String str1, String str2) {
+		var letters1 = strToCountMap(str1.toLowerCase());
+		var letters2 = strToCountMap(str2.toLowerCase());
+		// now compare the dictionaries
+		if (letters1.size() != letters2.size()) {
+			return false;
+		}
+		for (var character : letters1.keySet()) {
+			if (!letters2.containsKey(character) || letters2.get(character) != letters1.get(character)) {
+				// Either a character in str1 not in str2 or the char occurences are not equal.
+				return false;
+			}
+		}
+		return true;
+
+	}
+
+	public static HashMap<Character, Integer> strToCountMap(String str) {
+		char[] strArray = str.toCharArray();
+		String validChars = "abcdefghijklmnopqrstuvwxys";
+		var letters = new HashMap<Character, Integer>();
+		for (char c : strArray) {
+			if (validChars.indexOf(c) != -1 && letters.containsKey(c)) {
+				int charCount = letters.get(c);
+				letters.put(c, charCount + 1);
+			} else {
+				letters.put(c, 1);
+			}
+		}
+		return letters;
 	}
 
 	public static String removeSpace(String str) {
