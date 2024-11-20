@@ -70,15 +70,10 @@ public class Algebra {
 		int absX2 = x2 < 0 ? minus(0, x2) : x2;
 		int absX1 = x1 < 0 ? minus(0, x1) : x1;
 		int base = 0;
-		boolean isSameSign = isSameSign(x1, x2);
 		for (int i = 0; i < absX2; i++) {
-			if (isSameSign) {
-				base = plus(base, absX1);
-			} else {
-				base = minus(base, absX1);
-			}
+			base = plus(base, absX1);
 		}
-		return base;
+		return isSameSign(x1, x2) ? base : minus(0, base);
 	}
 
 	// Returns x^n (for n >= 0)
@@ -97,13 +92,12 @@ public class Algebra {
 		int counter = -1;
 		int absX2 = x2 < 0 ? minus(0, x2) : x2;
 		int absX1 = x1 < 0 ? minus(0, x1) : x1;
-		boolean isSameSign = isSameSign(x1, x2);
 		while (absX1 >= 0) {
 
 			absX1 = minus(absX1, absX2);
 			counter++;
 		}
-		return isSameSign ? counter : times(counter, -1);
+		return isSameSign(x1, x2) ? counter : times(counter, -1);
 	}
 
 	// Returns x1 % x2
